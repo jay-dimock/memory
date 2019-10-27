@@ -28,6 +28,9 @@ button {
     color: black;
 }
 
+p {
+    padding: 20px;
+}
 
 input[type='number'] {
     appearance: textfield;
