@@ -2,6 +2,9 @@
     margin: 0;
     padding: 0;
     text-align: center;
+    background-color: black;
+    color: lightgray;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 #container {
@@ -9,10 +12,41 @@
     margin: auto;
 }
 
+form {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: auto;
+    display:inline-block;
+}
+
+button {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: lightgray;
+    color: black;
+}
+
+
+input[type='number'] {
+    appearance: textfield;
+    padding: 5px;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']:hover::-webkit-inner-spin-button, 
+input[type='number']:hover::-webkit-outer-spin-button {
+    /*  this gets rid of Chrome's "spinner" up-down arrows in number */
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
 .card {
     vertical-align: top;
     width: 140px;
     height: 140px;
-    border: 2px solid black;
+    border: 0px solid lightgray;
     margin: 5px;
 }
+

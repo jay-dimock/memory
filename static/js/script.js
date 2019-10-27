@@ -1,23 +1,54 @@
-var arrOfImages = ["csharplogo.png", "csslogo.png", "htmllogo.png", "javalogo.png", "jslogo.png", "pythonlogo.png"];
-// Fill these functions out using your code!
-function doubleImages(arr) {
-    for(var i=arr.length-1; i >=0; i--) {
-        arr.push(arr[i]);        
+var allImages = [
+    "Andorian", "Android", "Bajoran", "Betazoid",
+    "Bolian", "Borg", "Cardassian", "Changeling",
+    "Denobulan", "Ferengi", "Human", "Jem_Hadar",
+    "Kazon", "Klingon", "Ocampa","Orion",
+    "Q", "Romulan", "Suliban", "Talaxian",
+    "Trill", "Vidiian", "Vorta", "Vulcan",
+];
+
+var arrOfImages = [];
+var cardsPicked = [];    
+var cardsMatched = [];
+var waiting = false;
+
+function configureImages(numberOfPairs) {   
+
+    for(var i=0; i<allImages.length; i++) {
+        arrOfImages.push(allImages[i]);
     }
-    //return arr;
+
+    shuffle(arrOfImages); //put images in random order
+    arrOfImages.splice(numberOfPairs, arrOfImages.length-numberOfPairs); //only keep desired number of pairs
+    
+    //make a copy of each
+    for(var i=arrOfImages.length-1; i >=0; i--) {
+        arrOfImages.push(arrOfImages[i]);        
+    }
+
+    shuffle(arrOfImages);
 }
+
 function displayCards(arr) {
     var container = document.getElementById("container");
 
+    container.innerHTML = "";
+
     for(var i=0; i<arr.length; i++) {
         var newImgElement = document.createElement("img");
-        newImgElement.src = "static/images/" + arr[i];
+        newImgElement.src = "static/images/" + arr[i] + ".jpg";
+        newImgElement.alt = "Hidden"
         newImgElement.id = i;
         newImgElement.className = "card";
         container.appendChild(newImgElement);
     }
+
+    var cards = document.getElementsByClassName("card");  
+for (var i = 0; i < cards.length; i++) {
+    cards[i].addEventListener("click", revealCard);
 }
-function shuffleCards(arr) {
+}
+function shuffle(arr) {
     for (var i=0; i<arr.length; i++) {
         var idx1 = Math.floor(Math.random() * arr.length);
         var idx2 = Math.floor(Math.random() * arr.length);
@@ -25,10 +56,12 @@ function shuffleCards(arr) {
         arr[idx1] = arr[idx2];
         arr[idx2] = temp;
     }
+    return arr;
 }   
 function hideACard(idx) {
     var specifiedCard = document.getElementById(idx);
-    specifiedCard.src = "static/images/questionmark.png";
+    specifiedCard.src = "static/images/Hidden.jpg";
+    specifiedCard.alt = "Hidden";
 }
 
 function hidePickedCards() {    
@@ -36,8 +69,7 @@ function hidePickedCards() {
     if (cardsPicked.length != 2) return;
     hideACard(cardsPicked[0]);
     hideACard(cardsPicked[1]);
-    cardsPicked = [];
-    
+    cardsPicked = [];   
 }
 
 function cardAlreadyMatched(imgName) {
@@ -60,7 +92,8 @@ function revealCard(event) {
     //if user clicked on same card twice, ignore.
     if (cardsPicked.length == 1 && clickedImageId == cardsPicked[0]) return;
 
-    clickedImage.src = "static/images/" + imgName;   
+    clickedImage.src = "static/images/" + imgName + ".jpg" 
+    clickedImage.alt = imgName;
     cardsPicked.push(clickedImageId);    
 
     if (cardsPicked.length != 2) return;
@@ -76,21 +109,36 @@ function revealCard(event) {
 
 
 
-// Game logic!
-doubleImages(arrOfImages);
-shuffleCards(arrOfImages);
-displayCards(arrOfImages);
+// Entry point
+var textbox = document.getElementById("myForm").elements[0];
+textbox.value = "9";
+configureBoard();
 
-// call on the hideACard function for each card in our array of images
-for (var i = 0; i < arrOfImages.length; i++) {
-    hideACard(i);
-}
 
-var cardsPicked = [];    
-var cardsMatched = [];
-var waiting = false;
+function configureBoard() {
+    var textbox = document.getElementById("myForm").elements[0];
+    var numberOfPairs = textbox.value;
+    if (numberOfPairs === "") return;
 
-var cards = document.getElementsByClassName("card");  
-for (var i = 0; i < cards.length; i++) {
-    cards[i].addEventListener("click", revealCard);
+    
+
+    if (numberOfPairs > allImages.length)
+    {
+        numberOfPairs = allImages.length;
+        textbox.value = numberOfPairs;
+    }
+
+    arrOfImages = [];
+    cardsPicked = []; 
+    cardsMatched = [];
+
+    configureImages(numberOfPairs);
+    displayCards(arrOfImages);
+
+    for (var i = 0; i < arrOfImages.length; i++) {
+        hideACard(i);
+    }
+
+    
+    
 }

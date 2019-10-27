@@ -9,7 +9,15 @@
     <script src="static/js/script.js" defer></script>
 </head>
 <body>
-    <h1>Memory Match Game</h1>
+    <h1>Star Trek Species</h1>
+    <h2>Memory Match Game</h2>
+    <div>
+        <form id="myForm">Number of Pairs (max 24):
+            <input name="numberOfPairs" type="number" style="width:50px" onkeydown="return event.key != 'Enter';" >
+        </form>
+        <button onclick="configureBoard()">START</button>
+        
+    </div>
     <div id="container"></div>
 </body>
 </html>
